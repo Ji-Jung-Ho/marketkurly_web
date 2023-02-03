@@ -1,0 +1,38 @@
+@import url(../../../../css/fonts.css);
+@import url(../../../../css/reset.css);
+@import url(../../../../css/modal.css);
+@import url(../../../../css/header.css);
+@import url(../../../../css/footer.css);
+@import url(../../../../css/go_top.css);
+@import url(../../../../css/quick_menu.css);
+#wrap {
+  width: 100%;
+}
+#wrap #main.main4 {
+  width: 100%;
+}
+#wrap #main.main4 #banner {
+  width: 100%;
+}
+#wrap #main.main4 #banner .container {
+  width: 100%;
+  max-width: 1050px;
+  margin: 0 auto;
+}
+#wrap #main.main4 #banner .container .title {
+  width: 100%;
+}
+#wrap #main.main4 #banner .container .title h2 {
+  font-size: 30px;
+  text-align: center;
+}
+#wrap #main.main4 #banner .container .content {
+  width: 100%;
+}
+#wrap #main.main4 #banner .container .content ul.banner-list {
+  width: 100%;
+}
+#wrap #main.main4 #banner .container .content ul.banner-list li {
+  width: 100%;
+  padding: 5px 0;
+}

@@ -8,7 +8,7 @@
             let txt = '';
 
             $.ajax({
-                url:'./data/product.json',
+                url:'./data/new_product.json',
                 dataType:'JSON',
                 success( res ){
                     function commaRegExp(z){
