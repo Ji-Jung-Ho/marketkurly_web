@@ -8,6 +8,7 @@ import SubMain2Component from './SubMain2Component';
 import SubMain3Component from './SubMain3Component';
 import SubMain4Component from './SubMain4Component';
 import MemberSignUpComponent from './MemberSignUpComponent';
+import MemberSignInComponent from './MemberSignInComponent';
 import FooterComponent from './FooterComponent';
 import QuickMenuComponent from './QuickMenuComponent';
 import GoTopComponent from './GoTopComponent';
@@ -162,12 +163,30 @@ const memberSignInFn=()=>{
         <HeaderComponent $path={props.$path} introMainFn={introMainFn} subMain1Fn={subMain1Fn} subMain2Fn={subMain2Fn} subMain3Fn={subMain3Fn} subMain4Fn={subMain4Fn}
         memberSignUpFn={memberSignUpFn} memberSignInFn={memberSignInFn}/>
       }
-      <IntroMainComponent/>
-      <SubMain1Component/>
-      <SubMain2Component/>
-      <SubMain3Component/>
-      <SubMain4Component/>
-      <MemberSignUpComponent/>
+      {
+        IsIntroMain && <IntroMainComponent/>
+      }
+      {
+        isSubMain1 && <SubMain1Component/>
+      }
+      {
+        isSubMain2 && <SubMain2Component/>
+      }
+      {
+        isSubMain3 && <SubMain3Component/>
+      }
+      {
+        isSubMain4 && <SubMain4Component/>
+      }
+      {
+        isMemberSignUp && <MemberSignUpComponent introMainFn={introMainFn}/>
+      }
+      {
+        IsMemberSignIn && <MemberSignInComponent/>
+      }
+      {
+        IsMemberSignIn && <memberSignInFn/>
+      }
       <FooterComponent $path={props.$path}/>
       <QuickMenuComponent $path={props.$path}/>
       <GoTopComponent $path={props.$path}/>
