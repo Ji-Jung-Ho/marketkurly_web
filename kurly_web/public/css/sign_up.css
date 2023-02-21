@@ -1,10 +1,3 @@
-@import url(../../../../css/fonts.css);
-@import url(../../../../css/reset.css);
-@import url(../../../../css/modal.css);
-@import url(../../../../css/header.css);
-@import url(../../../../css/footer.css);
-@import url(../../../../css/quick_menu.css);
-@import url(../../../../css/go_top.css);
 #wrap #main #signUp {
   width: 100%;
   padding: 60px 0 90px 0;
@@ -17,6 +10,9 @@
 #wrap #main #signUp .container .title {
   width: 100%;
   border-bottom: 2px solid #000;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
 }
 #wrap #main #signUp .container .title .main-title {
   text-align: center;
@@ -82,6 +78,9 @@
 }
 #wrap #main #signUp .container .content form > ul > li .left .left-wrap label {
   font-size: 14px;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
 }
 #wrap #main #signUp .container .content form > ul > li .left .left-wrap label strong {
   color: #333;
@@ -97,6 +96,9 @@
   width: 100%;
   padding: 0 130px 0 0;
   position: relative;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
 }
 #wrap #main #signUp .container .content form > ul > li .right .right-wrap.gender, #wrap #main #signUp .container .content form > ul > li .right .right-wrap.add-input-box1 {
   height: 46px;
@@ -193,6 +195,9 @@
   border: 7px solid #5f0080;
 }
 #wrap #main #signUp .container .content form > ul > li .right .right-wrap button {
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
   position: absolute;
   right: 0;
   top: 0;
@@ -286,7 +291,15 @@
 #wrap #main #signUp .container .content form > ul > li .right .right-wrap.service ul li:nth-child(6) {
   padding-left: 24px;
 }
+#wrap #main #signUp .container .content form > ul > li .right .right-wrap.service ul li label {
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
+}
 #wrap #main #signUp .container .content form > ul > li .right .right-wrap.service ul li label input[type=checkbox] {
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
   -webkit-appearance: none;
      -moz-appearance: none;
           appearance: none;
@@ -295,12 +308,12 @@
   background: 24px 24px;
   border-radius: 12px;
   margin: 0 12px 0 0;
-  background-image: url(../img/chkbox_gray.svg);
+  background-image: url(../img/sign_up/chkbox_gray.svg);
   background-repeat: no-repeat;
   background-position: 50% 50%;
 }
 #wrap #main #signUp .container .content form > ul > li .right .right-wrap.service ul li label input[type=checkbox]:checked {
-  background-image: url(../img/chkbox_purple.svg);
+  background-image: url(../img/sign_up/chkbox_purple.svg);
 }
 #wrap #main #signUp .container .content form > ul > li .right .right-wrap.service ul li label input[type=checkbox]#chk6 {
   margin-left: 42px;
@@ -312,16 +325,24 @@
 #wrap #main #signUp .container .content form > ul > li .right .right-wrap.service ul li:nth-child(1) label {
   font-size: 18px;
   font-weight: 500;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
 }
 #wrap #main #signUp .container .content form > ul > li .right .right-wrap.service ul li p {
   margin-left: 36px;
   font-size: 12px;
   line-height: 18px;
   letter-spacing: -0.5px;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
 }
 #wrap #main #signUp .container .content form > ul > li .right .right-wrap.service ul li p.free-shipping-info {
   color: rgb(95, 0, 128);
   margin-left: 60px;
+  padding-left: 16px;
+  background: url(../img/sign_up/ico_sub_dot.svg) 0px 0px/16px 20px no-repeat;
 }
 #wrap #main #signUp .container .content form > ul > li .right .right-wrap.service ul li button {
   width: auto;
@@ -350,6 +371,9 @@
   text-align: center;
   padding: 40px 0;
   border-top: 1px solid #eee;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
 }
 #wrap #main #signUp .container .content form .button-box button {
   width: 240px;
@@ -364,7 +388,6 @@
 }
 #wrap #confirmModal {
   z-index: 5;
-  display: none;
   position: fixed;
   top: 0;
   left: 0;
@@ -399,6 +422,9 @@
   border-top: 1px solid #eee;
   width: 100%;
   height: 55px;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
 }
 #wrap #confirmModal .wrap .container .button-box button {
   position: relative;

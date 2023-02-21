@@ -1,6 +1,80 @@
 import React from 'react';
+import axios from 'axios';
+import PropTypes from 'prop-types';
 
-export default function SignUpComponent () {
+export default function SignUpComponent ({회원, isConfirmModalFn}) {
+
+    // 회원가입 상태관리 변수
+
+    const [state, setState] = React.useState(회원);
+
+    // 1. 아이디 입력상자 온체인지 이벤트 구현
+    const onChangeId=(e)=>{
+
+        const regExp1 = /[`~!@#$^&*()\-_=+\\|\[\]{};:'",<.>/?]/g;
+        const regExp2 = /.{6,16}/g;
+        const regExp3 = /(?=.*[A-Za-z])+(?=.*[0-9])*/g;
+        const regExp4 = /\s/g;
+
+        let {value} = e.target;     // 비구조화
+        let 아이디 = '';            // 임시변수
+        let is아이디 = false;        // 임시변수
+
+        아이디 = value.replace(regExp1,'');
+
+        if( regExp2.test(아이디)=== false || regExp3.test(아이디) === false || regExp4.test(아이디) === true ){
+            is아이디 = true;
+        }
+        else { 
+            is아이디 = false;
+        }
+
+        setState({
+            ...state,
+            아이디: 아이디,
+            is아이디: is아이디
+        })
+    }
+    
+    // 2. 아이디 중복확인 버튼 클릭 이벤트
+    const onClickidOkBtn=(e)=>{
+        e.preventDefault();
+
+        const regExp2 = /.{6,16}/g;
+        const regExp3 = /(?=.*[A-Za-z])+(?=.*[0-9])*/g;
+        const regExp4 = /\s/g;
+        const thisVal = state.아이디;
+
+        if( regExp2.test( thisVal ) === false || regExp3.test(thisVal) === false || regExp4.test(thisVal) === true ){
+            isConfirmModalFn('6자 이상 16자 이하의 영문 혹은 영문과 숫자를 조합');
+        }
+        else {
+            axios({
+                url: 'http://kiik52.dothome.co.kr/kurly_study/member_select.php',
+                method: 'GET'
+            })
+            .then((res)=>{
+                let result = res.data.map((item)=>item.아이디 === state.아이디);
+    
+                if (result.includes(true)) {
+                    isConfirmModalFn('사용 불가능한 아이디 입니다.');
+                }
+                else {
+                    isConfirmModalFn('사용 가능한 아이디 입니다.');
+                }
+                
+            })
+            .catch((err)=>{
+                console.log('AXIOS 실패' + err);
+            });
+        }
+    }
+
+    React.useEffect(()=>{
+
+    });
+
+
   return (
     <main id='main'>
         <section id="signUp">
@@ -24,9 +98,12 @@ export default function SignUpComponent () {
                                 </div>
                                 <div className="right">
                                     <div className="right-wrap">
-                                        <input type="text" maxLength='16' name='input_id' id='inputId' placeholder='아이디를 입력해주세요'/>
-                                        <button type="button" className='id-ok-btn'>중복확인</button>
-                                        <p className='error-message'>6자 이상 16자 이하의 영문 혹은 영문과 숫자를 조합</p>
+                                        <input type="text" maxLength='16' name='input_id' id='inputId' placeholder='아이디를 입력해주세요'
+                                         onChange={onChangeId} 
+                                         value={state.아이디}
+                                         />
+                                        <button type="button" className='id-ok-btn' onClick={onClickidOkBtn}>중복확인</button>
+                                        <p className={`error-message${state.is아이디 ? ' on' : ''}`}>6자 이상 16자 이하의 영문 혹은 영문과 숫자를 조합</p>
                                     </div>
                                 </div>
                             </li>                        
@@ -164,7 +241,7 @@ export default function SignUpComponent () {
                                     <div className="right-wrap gender">
                                         <label htmlFor="male"><input type="radio" name='gender' id='male' className='gender-btn' value='남자'/>남자</label>                                        
                                         <label htmlFor="female"><input type="radio" name='gender' id='female' className='gender-btn' value='여자'/>여자</label>                                        
-                                        <label htmlFor="unselect"><input type="radio" name='gender' id='unselect' className='gender-btn' value='선택안함' checked/>선택안함</label>                                        
+                                        <label htmlFor="unselect"><input type="radio" name='gender' id='unselect' className='gender-btn' value='선택안함'/>선택안함</label>                                        
                                     </div>
                                 </div>
                             </li>     
@@ -238,31 +315,31 @@ export default function SignUpComponent () {
                                                 <p>선택항목에 동의하지 않은 경우도 회원가입 및 일반적인 서비스를 이용할 수 있습니다.</p>
                                             </li>
                                             <li>
-                                                <label htmlFor="chk1"><input type="checkbox" name='chk1' id='chk1'  className='chk-btn'  value='이용약관 동의(필수)'/>이용약관 동의</label>(필수)
+                                                <label htmlFor="chk1"><input type="checkbox" name='chk1' id='chk1'  className='chk-btn'  value='이용약관 동의(필수)'/>이용약관 동의(필수)</label>
                                                 <button><span>약관보기</span><img src="./img/arrow_right.svg" alt=""/></button>
                                             </li>
                                             <li>
-                                                <label htmlFor="chk2"><input type="checkbox" name='chk2' id='chk2'  className='chk-btn'  value='개인정보 수집∙이용 동의(필수)'/>개인정보 수집∙이용 동의</label>(필수)
+                                                <label htmlFor="chk2"><input type="checkbox" name='chk2' id='chk2'  className='chk-btn'  value='개인정보 수집∙이용 동의(필수)'/>개인정보 수집∙이용 동의(필수)</label>
                                                 <button><span>약관보기</span><img src="./img/arrow_right.svg" alt=""/></button>
                                             </li>
                                             <li>
-                                                <label htmlFor="chk3"><input type="checkbox" name='chk3' id='chk3'  className='chk-btn'  value='개인정보 수집∙이용 동의(선택)'/>개인정보 수집∙이용 동의</label>(선택)
+                                                <label htmlFor="chk3"><input type="checkbox" name='chk3' id='chk3'  className='chk-btn'  value='개인정보 수집∙이용 동의(선택)'/>개인정보 수집∙이용 동의(선택)</label>
                                                 <button><span>약관보기</span><img src="./img/arrow_right.svg" alt=""/></button>
                                             </li>
                                             <li>
-                                                <label htmlFor="chk4"><input type="checkbox" name='chk4' id='chk4'  className='chk-btn'  value='무료배송, 할인쿠폰 등 혜택/정보 수신 동의(선택)'/>무료배송, 할인쿠폰 등 혜택/정보 수신 동의</label>(선택)
+                                                <label htmlFor="chk4"><input type="checkbox" name='chk4' id='chk4'  className='chk-btn'  value='무료배송, 할인쿠폰 등 혜택/정보 수신 동의(선택)'/>무료배송, 할인쿠폰 등 혜택/정보 수신 동의(선택)</label>
                                                 
                                             </li>
                                             <li>
-                                                <label htmlFor="chk5"><input type="checkbox" name='chk5' id='chk5'  className='chk-btn chk4-btn'  value='SNS'/>SNS</label>(선택)
-                                                <label htmlFor="chk6"><input type="checkbox" name='chk6' id='chk6'  className='chk-btn chk4-btn'  value='이메일'/>이메일</label>(선택)
+                                                <label htmlFor="chk5"><input type="checkbox" name='chk5' id='chk5'  className='chk-btn chk4-btn'  value='SNS'/>SNS(선택)</label>
+                                                <label htmlFor="chk6"><input type="checkbox" name='chk6' id='chk6'  className='chk-btn chk4-btn'  value='이메일'/>이메일(선택)</label>
                                                 
                                             </li>
                                             <li>
-                                                <p className="free-shipping-info"><img src="./img/ico_sub_dot.svg" alt=""/>동의 시 한 달간 [5%적립] + [2만원 이상 무료배송] 첫 주문 후 안내 </p> 
+                                                <p className="free-shipping-info">동의 시 한 달간 [5%적립] + [2만원 이상 무료배송] 첫 주문 후 안내 </p> 
                                             </li>
                                             <li>
-                                                <label htmlFor="chk7"><input type="checkbox" name='chk7' id='chk7'  className='chk-btn'  value='본인은 만 14세 이상입니다.(필수)'/>본인은 만 14세 이상입니다.</label>(필수)
+                                                <label htmlFor="chk7"><input type="checkbox" name='chk7' id='chk7'  className='chk-btn'  value='본인은 만 14세 이상입니다.(필수)'/>본인은 만 14세 이상입니다.(필수)</label>
                                                 
                                             </li>
                                         </ul>
@@ -281,7 +358,53 @@ export default function SignUpComponent () {
   );
 };
 
-// props의 자료형 선언 = proptypes
-SignUpComponent.propType = {
-    
+// props의 자료형 선언 : prop-types (패키지 설치)
+SignUpComponent.propTypes = {
+    회원 : PropTypes.shape ({
+        아이디 :                PropTypes.string.isRequired,
+        is아이디 :              PropTypes.bool.isRequired,
+        아이디중복확인 :        PropTypes.bool.isRequired,
+        비밀번호 :              PropTypes.string.isRequired,
+        비밀번호확인 :          PropTypes.string.isRequired,
+        이름 :                  PropTypes.string.isRequired,
+        이메일 :                PropTypes.string.isRequired,
+        이메일중복확인 :        PropTypes.bool.isRequired,
+        휴대폰 :                PropTypes.number.isRequired,
+        휴대폰인증확인 :        PropTypes.bool.isRequired,
+        주소1 :                 PropTypes.string.isRequired,
+        주소2 :                 PropTypes.string.isRequired,
+        성별 :                  PropTypes.string,
+        생년 :                  PropTypes.number,
+        생월 :                  PropTypes.number,
+        생일 :                  PropTypes.number,
+        추가입력사항 :          PropTypes.string,
+        추가입력사항입력상자 :  PropTypes.string,
+        이용약관동의 :          PropTypes.array
+    })
+}
+
+
+// 회원가입의 모든 변수관리
+SignUpComponent.defaultProps = {
+    회원 : {
+        아이디:"",
+        is아이디: false,
+        아이디중복확인 : false,
+        비밀번호:"",
+        비밀번호확인:"",
+        이름:"",
+        이메일:"",
+        이메일중복확인 : false,
+        휴대폰:"",
+        휴대폰인증확인 : false,
+        주소1:"",
+        주소2:"",
+        성별:"",
+        생년:"",
+        생월:"",
+        생일:"",
+        추가입력사항:"",
+        추가입력사항입력상자:"",
+        이용약관동의:[]
+    }
 }

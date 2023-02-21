@@ -29,8 +29,14 @@
     <script type="text/babel" src="./js/modal.js"></script>
     <script type="text/babel" src="./js/header.js"></script>
     <script type="text/babel" src="./js/intro_main.js"></script>
+    
     <script type="text/babel" src="./js/quick_menu.js"></script>
     <script type="text/babel" src="./js/go_top.js"></script>
-    <script type="text/babel" src="./js/sign_up.js"></script>
+
+    <!-- index.html에서 AJAX 구현이 로딩시 1회만 되고, 서브메인1 페이지 호출시 실행이 안된다. 그래서 새로운 스크립트를
+    생성하여 바로 실행되도록 createElement를 사용하여 소스 속성을 넣어준다. -->
+    <!-- 정적파일 <srcipt tupe="text/babel" src="./js/category.js></script>" -->
+    <!-- 동적파일 <srcipt tupe="text/babel" src="./js/new_product.js></script>" -->
+    <!-- 동적파일 <script type="text/babel" src="./js/sign_up.js"></script> -->
   </body>
 </html>

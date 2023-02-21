@@ -50,7 +50,7 @@
                   const regExp4 = /\s/g;
                   let thisVal = $(this).val();
 
-                  $inputId.val( thisVal.replace(regExp1,'') );
+                  $inputId.val( thisVal.replace(regExp1,''));
 
                   if( regExp2.test( thisVal )=== false || regExp3.test(thisVal) === false || regExp4.test(thisVal) === true ){
                       $(this).siblings($errorMessage).addClass('on');
@@ -88,7 +88,7 @@
                     // 반환(리턴)값은 배열로 출력된다. imsi[false, true, false]
         
                     $.ajax({
-                      url: 'http://kiik52.dothome.co.kr/react_cra/member_select.php', // 조회(검색) PHP
+                      url: 'http://kiik52.dothome.co.kr/kurly_study/member_select.php', // 조회(검색) PHP
                       type: "GET",
                       success: function (result) {
                         // console.log("AJAX 성공 그리고 응답 결과 : ",JSON.parse(result));
@@ -272,7 +272,7 @@
                   }
                   else{        
                       $.ajax({
-                          url:'./member_select.php', //조회(검색) PHP 
+                          url:'http://kiik52.dothome.co.kr/kurly_study/member_select.php', //조회(검색) PHP 
                           type:'GET',
                           success: function(result){
                               // console.log( 'AJAX 성공 그리고 응답 결과 : ', JSON.parse(result) );
@@ -542,6 +542,10 @@
         // 7. 성별
         genderMethod(){ 
           const that = this;
+
+          // 선택안함 = 초기값
+          $('#unselect').prop('checked', true);
+
           $('.gender-btn').on({
               change(){
                 that.회원.성별 = $(this).val();
@@ -962,7 +966,7 @@
 
               // 웹서버 데이터베이스(DB)에 데이터 보내기
               $.ajax({
-                url:'./member_insert.php',
+                url:'http://kiik52.dothome.co.kr/kurly_study/member_insert.php',
                 type: 'POST',
                 data: {
                   input_id : 회원가입데이터.아이디,
@@ -980,7 +984,7 @@
                 success: function(res){
                 //   console.log('AJAX 성공', res);
                   // 회원가입 완료 그리고 인트로페이지로 이동
-                  location.href = _path;  // ../../../../
+                  location.href = './';
                 },
                 error: function(err){
                   console.log('AJAX 실패', err);

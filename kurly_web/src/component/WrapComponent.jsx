@@ -15,6 +15,7 @@ import GoTopComponent from './GoTopComponent';
 
 export default function WrapComponent (props) {
 
+  // 상태관리 함수
   const [isTopModal, setIsTopModal] = React.useState(true);           // 탑모달
   const [isMainModal, setIsMainModal] = React.useState(true);         // 메인모달
   const [IsIntroMain, setIsIntroMain] = React.useState(true);         // 인트로메인
@@ -25,11 +26,11 @@ export default function WrapComponent (props) {
   const [isMemberSignUp, setIsMemberSignUp] = React.useState(false);  // 회원가입
   const [IsMemberSignIn, setIsMemberSignIn] = React.useState(false);  // 로그인
 
-  // 탑모달 상태관리 함수
+  // 탑모달 상태변경 함수
   const topModalState=()=>{
     setIsTopModal(false);
   }
-  // 메인모달 상태관리 함수
+  // 메인모달 상태변경 함수
   const mainModalState=()=>{
     setIsMainModal(false);
   }
@@ -79,7 +80,7 @@ export default function WrapComponent (props) {
     mainModalFn();
   },[]);
 
-  //인트로메인 상태관리 함수
+  //인트로메인 상태변경 함수
   const introMainFn=()=>{
     setIsIntroMain(true);
     setIsSubMain1(false);       // 서브메인1 숨김
@@ -89,7 +90,7 @@ export default function WrapComponent (props) {
     setIsMemberSignUp(false);   // 회원가입 숨김
     setIsMemberSignIn(false);   // 로그인 숨김
   }
-  // 서브메인1 상태관리 변경 함수
+  // 서브메인1 상태변경 함수
   const subMain1Fn=()=>{
     setIsIntroMain(false);      // 인트로메인 숨김
     setIsSubMain1(true);        // 서브메인1 보임
@@ -99,7 +100,7 @@ export default function WrapComponent (props) {
     setIsMemberSignUp(false);   // 회원가입 숨김
     setIsMemberSignIn(false);   // 로그인 숨김
 }
-// 서브메인2 상태관리 변경 함수
+// 서브메인2 상태변경 함수
 const subMain2Fn=()=>{
     setIsIntroMain(false);      // 인트로메인 숨김
     setIsSubMain1(false);       // 서브메인1 숨김
@@ -109,7 +110,7 @@ const subMain2Fn=()=>{
     setIsMemberSignUp(false);   // 회원가입 숨김
     setIsMemberSignIn(false);   // 로그인 숨김
 }
-// 서브메인3 상태관리 변경 함수
+// 서브메인3 상태변경 함수
 const subMain3Fn=()=>{
     setIsIntroMain(false);      // 인트로메인 숨김
     setIsSubMain1(false);       // 서브메인1 숨김
@@ -119,7 +120,7 @@ const subMain3Fn=()=>{
     setIsMemberSignUp(false);   // 회원가입 숨김
     setIsMemberSignIn(false);   // 로그인 숨김
 }
-// 서브메인4 상태관리 변경 함수
+// 서브메인4 상태변경 함수
 const subMain4Fn=()=>{
     setIsIntroMain(false);      // 인트로메인 숨김
     setIsSubMain1(false);       // 서브메인1 숨김
@@ -130,7 +131,7 @@ const subMain4Fn=()=>{
     setIsMemberSignIn(false);   // 로그인 숨김
 
 }
-// 회원가입 상태관리 변경 함수
+// 회원가입 상태변경 함수
 const memberSignUpFn=()=>{
     setIsMemberSignUp(true);    // 회원가입 보임
     setIsIntroMain(false);      // 인트로메인 숨김
@@ -140,7 +141,7 @@ const memberSignUpFn=()=>{
     setIsSubMain4(false);       // 서브메인4 숨김
     setIsMemberSignIn(false);   // 로그인 숨김
 }
-
+// 로그인 상태변경 함수
 const memberSignInFn=()=>{
   setIsMemberSignIn(true);   // 로그인 보임
   setIsMemberSignUp(false);  // 회원가입 숨김
@@ -153,43 +154,56 @@ const memberSignInFn=()=>{
 
   return (
     <div id="wrap">
-      {
+      { // 탑모달
       isTopModal && <ModalComponent $path={props.$path} topModalState={topModalState}/>
       }
-      {
+      { // 메인모달
        isMainModal && <MainModalComponent $path={props.$path} mainModalState={mainModalState}/>
       }
-      {
-        <HeaderComponent $path={props.$path} introMainFn={introMainFn} subMain1Fn={subMain1Fn} subMain2Fn={subMain2Fn} subMain3Fn={subMain3Fn} subMain4Fn={subMain4Fn}
-        memberSignUpFn={memberSignUpFn} memberSignInFn={memberSignInFn}/>
+      { // 헤더
+        <HeaderComponent 
+        $path={props.$path} 
+        introMainFn={introMainFn} 
+        subMain1Fn={subMain1Fn} 
+        subMain2Fn={subMain2Fn} 
+        subMain3Fn={subMain3Fn} 
+        subMain4Fn={subMain4Fn}
+        memberSignUpFn={memberSignUpFn} 
+        memberSignInFn={memberSignInFn}/>
       }
-      {
+      { // 인트로메인
         IsIntroMain && <IntroMainComponent/>
       }
-      {
+      { // 서브메인1
         isSubMain1 && <SubMain1Component/>
       }
-      {
+      { // 서브메인2
         isSubMain2 && <SubMain2Component/>
       }
-      {
+      { // 서브메인3
         isSubMain3 && <SubMain3Component/>
       }
-      {
+      { //서브메인4
         isSubMain4 && <SubMain4Component/>
       }
-      {
+      { // 회원가입
         isMemberSignUp && <MemberSignUpComponent introMainFn={introMainFn}/>
       }
-      {
+      { //로그인
         IsMemberSignIn && <MemberSignInComponent/>
       }
       {
         IsMemberSignIn && <memberSignInFn/>
       }
-      <FooterComponent $path={props.$path}/>
-      <QuickMenuComponent $path={props.$path}/>
-      <GoTopComponent $path={props.$path}/>
+      { // 푸터
+        <FooterComponent $path={props.$path}/>
+      }
+      { // 퀵메뉴
+        <QuickMenuComponent $path={props.$path}/>
+      }
+      { // 고탑
+        <GoTopComponent $path={props.$path}/>
+      }
     </div>
   );
 };
