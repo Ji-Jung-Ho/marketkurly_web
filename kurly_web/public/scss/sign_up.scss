@@ -1,4 +1,5 @@
 #wrap {
+    white-space:pre-wrap;
     #main {
         #signUp {
             width:100%;
@@ -44,6 +45,9 @@
                                 display: flex;
                                 &.hp-ok-box{
                                     display: none;
+                                    &.on {
+                                        display: flex;
+                                    }
                                 }
                                 &.add-input-box-list { //추가입력 사항 텍스트박스 부모 list 박스
                                     display: none;
@@ -235,7 +239,7 @@
                                         }
 
                                         // 휴대폰 타이머 카운트
-                                        .time-count {
+                                        .signup-time-count {
                                             position: absolute;
                                             right:150px;
                                             top:16px;

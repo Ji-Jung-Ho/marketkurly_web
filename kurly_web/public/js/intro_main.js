@@ -255,29 +255,29 @@
 
         },
         section4: function(){
-            let setId = 0;
-            let hour = 0;
-            let minute = 0;
-            let second = 0;
-            function timerCount(){
-                setId = 0;
-                hour = 24;
-                minute = 0;
-                second = 0;
-                setId = setInterval(function(){
-                    second--;
-                    if(second<=0){
-                        second=59;
-                        minute--;
-                        if(minute<=0){
-                            minute=59;
-                            hour--;
-                            if(hour<0){
-                                clearInterval(setId);
-                                hour=0;
-                                minute=0;
-                                second=0;
-                                $('.time-count').addClass('disabled');
+            let sec4setId = 0;
+            let sec4hour = 0;
+            let sec4minute = 0;
+            let sec4second = 0;
+            function timerCount1(){
+                sec4setId = 0;
+                sec4hour = 24;
+                sec4minute = 0;
+                sec4second = 0;
+                sec4setId = setInterval(function(){
+                    sec4second--;
+                    if(sec4second<=0){
+                        sec4second=59;
+                        sec4minute--;
+                        if(sec4minute<=0){
+                            sec4minute=59;
+                            sec4hour--;
+                            if(sec4hour<0){
+                                clearInterval(sec4setId);
+                                sec4hour=0;
+                                sec4minute=0;
+                                sec4second=0;
+                                $('.sec4-time-count').addClass('disabled');
                                 $('.time-text').show();
                                 $('.bell-btn').hide();
                                 $('.text-box').text('판매 시간이 종료되었습니다.').css({"font-size":'28px',"font-weight":"700"});
@@ -285,10 +285,10 @@
                             }
                         }
                     }
-                    $('.time-count').html( `${hour<10?`0${hour}`: hour}:${minute<10? `0${minute}`: minute}:${second<10? `0${second}`:second}` );
+                    $('.sec4-time-count').html( `${sec4hour<10?`0${sec4hour}`: sec4hour}:${sec4minute<10? `0${sec4minute}`: sec4minute}:${sec4second<10? `0${sec4second}`:sec4second}` );
                 },1000);
             }
-            timerCount();
+            timerCount1();
         
         },
         section5: function(){

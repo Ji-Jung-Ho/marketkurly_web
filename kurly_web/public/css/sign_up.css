@@ -1,3 +1,6 @@
+#wrap {
+  white-space: pre-wrap;
+}
 #wrap #main #signUp {
   width: 100%;
   padding: 60px 0 90px 0;
@@ -50,6 +53,9 @@
 }
 #wrap #main #signUp .container .content form > ul > li.hp-ok-box {
   display: none;
+}
+#wrap #main #signUp .container .content form > ul > li.hp-ok-box.on {
+  display: flex;
 }
 #wrap #main #signUp .container .content form > ul > li.add-input-box-list {
   display: none;
@@ -243,7 +249,7 @@
 #wrap #main #signUp .container .content form > ul > li .right .right-wrap button.addr-api-btn.on {
   display: none;
 }
-#wrap #main #signUp .container .content form > ul > li .right .right-wrap .time-count {
+#wrap #main #signUp .container .content form > ul > li .right .right-wrap .signup-time-count {
   position: absolute;
   right: 150px;
   top: 16px;

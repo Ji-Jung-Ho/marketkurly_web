@@ -1,9 +1,15 @@
 import React from 'react';
 
-export default function ConfirmModalComponent ({msg, isConfirmModalCloseFn}) {
+export default function ConfirmModalComponent ({msg, isConfirmModalCloseFn, isTimerFn}) {
 
     const onClickClose=(e)=>{
         e.preventDefault();
+        console.log(msg)
+        console.log(msg.indexOf('인증번호'))
+        if (msg.indexOf('인증번호') !== -1) {
+            isTimerFn();
+        }
+        isTimerFn();
         isConfirmModalCloseFn();
     }
   return (

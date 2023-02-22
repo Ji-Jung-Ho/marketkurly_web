@@ -7,7 +7,8 @@ export default function MemberSignUpComponent () {
   // isConfirmModal, msg 상태관리 함수
   const [state, setState] = React.useState({
     isConfirmModal: false,
-    msg: ''
+    msg: '',
+    isTimer: false
   });
 
   // isConfirmModal, msg 상태변경 함수
@@ -27,10 +28,18 @@ export default function MemberSignUpComponent () {
     })
 }
 
+// 타이머 상태변수 변경 함수
+const isTimerFn=()=>{
+  setState({
+    ...state,
+    isTimer: true
+  })
+}
+
   return (
     <> {/* // 빈태그 : div태그를 사용하면 중간에 태그요소가 삽입되어 스타일이나 경로에 영향을 끼칠수있으므로, 가상태그요소인 빈태그를 사용하여 방지한다. */}
-      <SignUpComponent isConfirmModalFn={isConfirmModalFn}/>
-      {state.isConfirmModal && <ConfirmModalComponent msg={state.msg} isConfirmModalCloseFn={isConfirmModalCloseFn}/>}
+      <SignUpComponent isConfirmModalFn={isConfirmModalFn} isTimer={state.isTimer}/>
+      {state.isConfirmModal && <ConfirmModalComponent msg={state.msg} isConfirmModalCloseFn={isConfirmModalCloseFn} isTimerFn={isTimerFn}/>}
     </>
   );
 };

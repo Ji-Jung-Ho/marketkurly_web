@@ -15,7 +15,7 @@ export default function Section4Component () {
                             
                         </div>
                         <span className='time-text hide'>TIME OUT</span>
-                        <span className='time-count'></span>
+                        <span className='sec4-time-count'></span>
                     </div>
                     <p>망설이면 늦어요!</p>
                 </div>
