@@ -1,6 +1,6 @@
 import React from 'react';
 import axios from 'axios';
-import PropTypes, { number } from 'prop-types';
+import PropTypes from 'prop-types';
 
 export default function SignUpComponent ({회원, isConfirmModalFn, isTimer}) {
 
@@ -310,22 +310,17 @@ export default function SignUpComponent ({회원, isConfirmModalFn, isTimer}) {
     const onChangeInputHpOk=(e)=>{
         const regExp1 = /[^\d]/g;
         const {value} = e.target;
+        let 인증번호입력상자 = '';
+        
+        if(value.length >= 1){
+            clearInterval(state.setId);
+        }
 
-        // $(this).val( $(this).val().replace(regExp1,'') );
-        // if( $(this).val().length >= 1 ){
-        //     $('.hp-num-ok-btn')
-        //     .addClass('on')
-        //     .prop('disabled',false);
-        // }
-        // else {
-        //     $('.hp-num-ok-btn')
-        //     .removeClass('on')
-        //     .prop('disabled',true);
-        // }
+        인증번호입력상자 = value.replace(regExp1, '');
 
         setState({
             ...state,
-            인증번호입력상자: value
+            인증번호입력상자: 인증번호입력상자
         })
     }
 
@@ -366,11 +361,13 @@ export default function SignUpComponent ({회원, isConfirmModalFn, isTimer}) {
     const onClickHpNumBtn=(e)=>{
         e.preventDefault();
 
+        let isHp = false;
+
         setState({
             ...state,
             isHpNum2Btn: false,
             isInputHp: false,
-            isHp: true,
+            isHp: isHp,
             휴대폰: '',
             hpErrMsg: '휴대폰 번호를 입력해 주세요.'
         })
@@ -407,8 +404,101 @@ export default function SignUpComponent ({회원, isConfirmModalFn, isTimer}) {
 
     React.useEffect(()=>{
         isTimer && hpTimerCount();    // istimer 변수가 true 이면 타이머 실행, 아니면 정지
-    },[]);
+    },[isTimer]);
 
+    // 주소검색 버튼 클릭 이벤트 구현
+    const onClickAddressSearchBtn=(e)=>{
+        // 팝업창 띄우기
+        const _fileName = "./popup.html";
+        const _winName = "_address_api";
+        const _width = 530;
+        const _height = 569;
+        const _top = (window.innerHeight - _height) / 2; // 769-569=200/2=100
+        const _left = (window.innerWidth - _width) / 2; // 1903-530=1373/2=686.5
+        const childWin = window.open(_fileName,_winName,`width=${_width},height=${_height},top=${_top},left=${_left}`);
+    }
+
+    // 주소1 입력상자 온체인지 이벤트 구현
+    const onChangeInputAddr1=(e)=>{
+        const {value} = e.target;
+
+        setState({
+            ...state,
+            주소1: value
+        })
+    }
+
+    // 주소2 입력상자 온체인지 이벤트 구현
+    const onChangeInputAddr2=(e)=>{
+        const {value} = e.target;
+
+        setState({
+            ...state,
+            주소2: value
+        })
+    }
+
+    // 로딩시 세션스토리지에 저장된 값(kurly_search_address) 불러오고 유지하기
+    const getSessionAddress=()=>{
+        function getPromise(){
+            return new Promise((success, error)=>{
+
+                let 주소1 = '';
+                let 주소2 = '';
+                let isAddrHide = false;
+                let isAddrApiBtn = false;
+                
+                if ( sessionStorage.getItem('kurly_search_address') !== null ) {
+                    주소1 = JSON.parse(sessionStorage.getItem('kurly_search_address')).주소1
+                    주소2 = JSON.parse(sessionStorage.getItem('kurly_search_address')).주소2
+                    isAddrHide = true;
+                    isAddrApiBtn = true;
+
+                    // 주소가져오기 성공 했을 때 => 프로토타입 객체 생성
+                    const Obj = {
+                        주소1: 주소1,
+                        주소2: 주소2,
+                        isAddrHide: true,
+                        isAddrApiBtn: true
+                    }
+                    success(Obj);
+                }
+                else {
+                    주소1 = '';
+                    주소2 = '';
+                    isAddrHide = false;
+                    isAddrApiBtn = false;
+
+                    error('주소가져오기 실패');
+                }
+            });
+        }
+
+        // 세션에서 주소를 가져오고 성공하면 성공 객체 데이터를 가져와서 state에 저장
+        getPromise()
+        .then((res)=>{      // 성공 결과
+            setState({
+                ...state,
+                주소1: res.주소1,
+                주소2: res.주소2,
+                isAddrHide: res.isAddrHide,
+                isAddrApiBtn: res.isAddrApiBtn
+            });
+        })
+        .catch((err)=>{     // 실패 결과
+            console.log(err);
+        });
+    }
+
+    React.useEffect(()=>{
+        getSessionAddress();
+    },[state.주소1, state.주소2]);
+    
+    // 주소 재검색 버튼 클릭 이벤트 구현
+    const onClickAddrReBtn=(e)=>{
+        e.preventDefault();
+        onClickAddressSearchBtn();
+    }
 
   return (
     <main id='main'>
@@ -562,13 +652,24 @@ export default function SignUpComponent ({회원, isConfirmModalFn, isTimer}) {
                                 </div>
                                 <div className="right">
                                     <div className="right-wrap">
-                                        <input type="text" className='addr-hide' name='input_addr1' id='inputAddr1' placeholder='카카오 주소 검색 API'/>
-                                        <button type="button" className='addr-hide addr-re-btn'><img src="./img/ico_search.svg" alt=""/>재검색</button>
-                                        <button type="button" className='addr-api-btn'><img src="./img/ico_search.svg" alt=""/>주소검색</button>                                        
+                                        <input type="text" 
+                                        className={`addr-hide${state.isAddrHide ? ' on' : ''}`} 
+                                        name='input_addr1' id='inputAddr1' placeholder='카카오 주소 검색 API'
+                                        onChange={onChangeInputAddr1}
+                                        value={state.주소1}
+                                        />
+                                        <button type="button" className={`addr-hide addr-re-btn${state.isAddrHide ? ' on' : ''}`} 
+                                        onClick={onClickAddrReBtn}
+                                        >
+                                        <img src="./img/ico_search.svg" alt=""/>재검색</button>
+                                        <button type="button" className={`addr-api-btn${state.isAddrApiBtn ? ' on' : ''}`}
+                                        onClick={onClickAddressSearchBtn}
+                                        >
+                                        <img src="./img/ico_search.svg" alt=""/>주소검색</button>                                        
                                     </div>                                    
                                 </div>
                             </li>                        
-                            <li className='addr-hide'>
+                            <li className={`addr-hide${state.isAddrHide ? ' on' : ''}`}>
                                 <div className="left">
                                     <div className="left-wrap">
                                         
@@ -576,11 +677,14 @@ export default function SignUpComponent ({회원, isConfirmModalFn, isTimer}) {
                                 </div>
                                 <div className="right">
                                     <div className="right-wrap">
-                                        <input type="text" name='input_addr2' id='inputAddr2' placeholder='나머지 주소를 입력해주세요'/>                                        
+                                        <input type="text" name='input_addr2' id='inputAddr2' placeholder='나머지 주소를 입력해주세요'
+                                        onChange={onChangeInputAddr2}
+                                        value={state.주소2}
+                                        />                                        
                                     </div>
                                 </div>
                             </li>                        
-                            <li className='addr-hide'>
+                            <li className={`addr-hide${state.isAddrHide ? ' on' : ''}`}>
                                 <div className="left">
                                     <div className="left-wrap">
                                         
@@ -754,11 +858,11 @@ SignUpComponent.propTypes = {
         setId:                  PropTypes.number,
         minute:                 PropTypes.number,
         second:                 PropTypes.number,
-        isTimer:                PropTypes.bool,
-        
 
         주소1:                  PropTypes.string,
         주소2:                  PropTypes.string,
+        isAddrHide:             PropTypes.bool,
+        isAddrApiBtn:           PropTypes.bool,
 
         성별:                   PropTypes.string,
 
@@ -808,10 +912,11 @@ SignUpComponent.defaultProps = {
         setId: 0,
         minute: 2,
         second: 59,
-        isTimer: false,
 
         주소1:'',
         주소2:'',
+        isAddrHide: false,
+        isAddrApiBtn: false,
 
         성별:'',
 

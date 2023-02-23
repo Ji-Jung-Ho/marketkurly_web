@@ -202,7 +202,7 @@ $pub_n: $pub_total / $pub_view_n;
             width: 100%;
             padding: 40px 0;
             .container {
-                max-width: 1064px;
+                max-width: 1050px;
                 margin: 0 auto;
                 .wrap {
                     display: flex;
@@ -230,6 +230,9 @@ $pub_n: $pub_total / $pub_view_n;
                                 height: 28px;
                                 border-radius: 50%;
                                 background-color: rgb(189, 118, 255);
+                                &.on {
+                                    display: none;
+                                }
                                 
                                 .h {
                                     position: absolute;
@@ -260,14 +263,14 @@ $pub_n: $pub_total / $pub_view_n;
                                 0%{transform:rotate(0);transform-origin: center bottom;}
                                 100%{transform:rotate(360deg);transform-origin: center bottom;}
                             }
-                            .sec4-time-count {
+                            .time-count {
                                 margin: -12px 0 0 12px;
                                 font-size: 32px;
                                 line-height: 47px;
                                 font-weight: 600;
                                 color: rgb(51,51,51);
-                                &.disabled {
-                                    opacity: 0;
+                                &.on {
+                                    display: none;
                                 }
                             }
                             .time-text {
@@ -276,6 +279,9 @@ $pub_n: $pub_total / $pub_view_n;
                                 line-height: 47px;
                                 font-weight: 600;
                                 color: rgb(51,51,51);
+                                &.on {
+                                    margin: 0px 0px;
+                                }
                             }
                         }
                         p {

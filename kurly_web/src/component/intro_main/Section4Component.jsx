@@ -1,6 +1,54 @@
 import React from 'react';
 
-export default function Section4Component () {
+export default function Section4Component ({타이머}) {
+
+    const [state, setState] = React.useState(타이머);
+    
+    function timerCount(){
+        let setId = 0;
+        let hour = 24;
+        let minute = 0;
+        let second = 0;
+        let msg = '';
+        let isTimer = false;
+        let isTimeCount = false;
+        
+        setId = setInterval(function(){
+            second--;
+            if(second <= 0){
+                second = 59;
+                minute--;
+                if(minute <= 0){
+                    minute = 59;
+                    hour--;
+                    if(hour < 0){
+                        clearInterval(setId);
+                        hour = 0;
+                        minute = 0;
+                        second = 0;
+                        msg = '수량이 마감되었습니다.'
+                        isTimer = true;
+                        isTimeCount = true;
+                    }
+                }
+            }
+
+            setState({
+                ...state,
+                setId: setId,
+                hour: hour,
+                minute: minute,
+                second: second,
+                msg: msg,
+                isTimer: isTimer,
+                isTimeCount: isTimeCount
+            })
+        },1000);
+    }
+    React.useEffect(()=>{
+        timerCount();
+    },[])
+
   return (
     <section id="section4">
         <div className="container">
@@ -9,13 +57,14 @@ export default function Section4Component () {
                     <h2>선착순 1천 개 한정</h2>
                     <h3>매일 저녁6시 한정수량 오픈!</h3>
                     <div className='time-box'>
-                        <div className='clock'>
+                        <div className={`clock${state.isTimeCount ? ' on' : ''}`}>
                             <div className='h'></div>
                             <div className='m'></div>
-                            
                         </div>
-                        <span className='time-text hide'>TIME OUT</span>
-                        <span className='sec4-time-count'></span>
+                        <span className={`time-text${state.isTimeCount ? ' on' : ''}`}>{state.msg}</span>
+                        <span className={`time-count${state.isTimeCount ? ' on' : ''}`}>
+                            {`${state.hour < 10 ? `0${state.hour}` : state.hour}:${state.minute < 10 ? `0${state.minute}` : state.minute}:${state.second < 10 ? `0${state.second}`: state.second}`}
+                        </span>
                     </div>
                     <p>망설이면 늦어요!</p>
                 </div>
@@ -44,3 +93,13 @@ export default function Section4Component () {
     </section>
   );
 };
+
+Section4Component.defaultProps = {
+    타이머 : {
+        hour: 23,
+        minute: 59,
+        second: 59,
+        msg: '',
+        isTimer: false
+    }
+}
