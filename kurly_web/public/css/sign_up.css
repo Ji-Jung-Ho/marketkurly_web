@@ -249,6 +249,12 @@
 #wrap #main #signUp .container .content form > ul > li .right .right-wrap button.addr-api-btn.on {
   display: none;
 }
+#wrap #main #signUp .container .content form > ul > li .right .right-wrap button.add-input-id-chk-btn {
+  display: none;
+}
+#wrap #main #signUp .container .content form > ul > li .right .right-wrap button.add-input-id-chk-btn.on {
+  display: block;
+}
 #wrap #main #signUp .container .content form > ul > li .right .right-wrap .signup-time-count {
   position: absolute;
   right: 150px;
@@ -441,5 +447,74 @@
   font-weight: 600;
   font-size: 16px;
   border: 0;
+  cursor: pointer;
+}
+#wrap #termsView {
+  z-index: 5;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.3);
+}
+#wrap #termsView .wrap {
+  width: 100%;
+  height: 100%;
+  display: flex;
+}
+#wrap #termsView .wrap .container {
+  margin: auto;
+  width: 440px;
+  background: #fff;
+  border-radius: 12px;
+}
+#wrap #termsView .wrap .container h1 {
+  padding: 30px 30px 24px;
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 1.25;
+  letter-spacing: -0.5px;
+  color: #333;
+}
+#wrap #termsView .wrap .container .content {
+  padding: 0 30px;
+  font-size: 14px;
+  line-height: 19px;
+  letter-spacing: -0.5px;
+  color: #666;
+  overflow-y: auto;
+  height: 460px;
+}
+#wrap #termsView .wrap .container .content::-webkit-scrollbar-thumb {
+  width: 30px;
+}
+#wrap #termsView .wrap .container .content .main-title {
+  display: block;
+  padding: 16px 0 8px 0;
+  font-size: 16px;
+  line-height: 21px;
+  color: #333;
+  font-weight: 500;
+}
+#wrap #termsView .wrap .container .button-box {
+  width: 100%;
+  height: 56px;
+  border-top: 1px solid #eee;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
+}
+#wrap #termsView .wrap .container .button-box button {
+  position: relative;
+  width: 100%;
+  height: 56px;
+  text-align: center;
+  background: #fff;
+  color: #5f0080;
+  font-weight: 700;
+  font-size: 16px;
+  border: 0;
+  border-radius: 12px;
   cursor: pointer;
 }
