@@ -98,6 +98,10 @@
   background: #5f0080;
   color: #fff;
 }
+#wrap .container .address-form .content ul li form ul li button img {
+  width: 30px;
+  height: 30px;
+}
 #wrap .container .address-form .content ul li form ul li p {
   color: #666;
   font-size: 12px;

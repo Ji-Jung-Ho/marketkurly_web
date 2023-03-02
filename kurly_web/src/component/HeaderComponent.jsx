@@ -29,6 +29,18 @@ export default function HeaderComponent ({$path, introMainFn, subMain1Fn, subMai
         e.preventDefault();
         memberSignInFn();
     }
+
+    // 주소검색 버튼 클릭 이벤트 구현
+    const onClickAddressSearchBtn=(e)=>{
+        // 팝업창 띄우기
+        const _fileName = "./popup.html";
+        const _winName = "_address_api";
+        const _width = 530;
+        const _height = 569;
+        const _top = (window.innerHeight - _height) / 2; // 769-569=200/2=100
+        const _left = (window.innerWidth - _width) / 2; // 1903-530=1373/2=686.5
+        const childWin = window.open(_fileName,_winName,`width=${_width},height=${_height},top=${_top},left=${_left}`);
+    }
     
   return (
     <div>
@@ -80,7 +92,7 @@ export default function HeaderComponent ({$path, introMainFn, subMain1Fn, subMai
                             </p>
                             <div className="tooltip-button">
                                 <button type="button" className="login-btn"><span>로그인</span></button>
-                                <button type="button" className="addr-btn"><span><img src={`${$path}img/header/info_search.png`}alt=""/>주소검색</span></button>
+                                <button type="button" onClick={onClickAddressSearchBtn} className="addr-btn"><span><img src={`${$path}img/header/info_search.png`}alt=""/>주소검색</span></button>
                             </div>
                         </div>
                     </a>

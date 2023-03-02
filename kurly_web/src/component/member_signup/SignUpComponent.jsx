@@ -2,7 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import PropTypes from 'prop-types';
 
-export default function SignUpComponent ({회원, isConfirmModalFn, isTimer, isTermsViewFn}) {
+export default function SignUpComponent ({회원, isConfirmModalFn, isTimer, isTermsViewFn, introMainFn}) {
 
     // 회원가입 상태관리 변수
 
@@ -11,7 +11,7 @@ export default function SignUpComponent ({회원, isConfirmModalFn, isTimer, isT
     // 1. 아이디 입력상자 온체인지 이벤트 구현
     const onChangeId=(e)=>{
 
-        const regExp1 = /[`~!@#$^&*()\-_=+\\|\[\]{};:'",<.>/?]/g;
+        const regExp1 = /[`~!@#$^&*()\-_=+\\|[\]{};:'",<.>/?]/g;
         const regExp2 = /.{6,16}/g;
         const regExp3 = /(?=.*[A-Za-z])+(?=.*[0-9])*/g;
         const regExp4 = /\s/g;
@@ -75,23 +75,22 @@ export default function SignUpComponent ({회원, isConfirmModalFn, isTimer, isT
                     아이디중복확인 = true;
                 }
                 
+                setState({
+                    ...state,
+                    아이디중복확인 : 아이디중복확인
+                })
             })
             .catch((err)=>{
                 console.log('AXIOS 실패' + err);
             });
         }
-
-        setState({
-            ...state,
-            아이디중복확인 : 아이디중복확인
-        })
     }
 
     // 3. 비밀번호 입력상자 온체인지 이벤트 구현
     const onChangePw=(e)=>{
 
         const regExp1 = /.{10,}/g;
-        const regExp2 = /((?=.*[A-Za-z]+)(?=.*[0-9]+))|((?=.*[A-Za-z]+)(?=.*[`~!@#$%^&*()\-_=+\\|\[\]{};:'",<.>/?]+))|((?=.*[0-9]+)(?=.*[`~!@#$%^&*()\-_=+\\|\[\]{};:'",<.>/?]+))/g;
+        const regExp2 = /((?=.*[A-Za-z]+)(?=.*[0-9]+))|((?=.*[A-Za-z]+)(?=.*[`~!@#$%^&*()\-_=+\\|[\]{};:'",<.>/?]+))|((?=.*[0-9]+)(?=.*[`~!@#$%^&*()\-_=+\\|[\]{};:'",<.>/?]+))/g;
         const regExp3 = /\s/g;                    
         const regExp4 = /(\d)\1\1/g;
         const {value} = e.target;
@@ -142,6 +141,7 @@ export default function SignUpComponent ({회원, isConfirmModalFn, isTimer, isT
 
         setState({
             ...state,
+            비밀번호확인: value,
             pwOkErrMsg: pwOkErrMsg,
             isPwOk: isPwOk
         })
@@ -149,7 +149,7 @@ export default function SignUpComponent ({회원, isConfirmModalFn, isTimer, isT
 
     // 이름 입력상자 온체인지 이벤트 구현
     const onChangeName=(e)=>{
-        const regExp1 = /[`~!@#$%^&*()\-_=+\\|\[\]{};:'",<.>/?]/g;
+        const regExp1 = /[`~!@#$%^&*()\-_=+\\|[\]{};:'",<.>/?]/g;
         const regExp2 = /[^0-9]/g;
         const regExp3 = /[^a-z|A-Z]/g;
         let {value} = e.target;
@@ -184,7 +184,7 @@ export default function SignUpComponent ({회원, isConfirmModalFn, isTimer, isT
     const onChangeEmail=(e)=>{
         const regExp1 = /\s/g;
         const regExp2 = /^[A-Za-z0-9`~!#$%^&*\-_=+|{}'/?]+(\.)*[A-Za-z0-9`~!#$%^&*\-_=+|{}'/?]+@[A-Za-z0-9`~!#$%^&*\-_=+|{}'/?]+(\.)*[A-Za-z0-9`~!#$%^&*\-_=+|{}'/?]+\.[A-Za-z]{2,3}$/g;
-        const regExp3 = /[@\(\)\\\[\]":;,<>]/g;
+        const regExp3 = /[@()\\[\]":;,<>]/g;
         let {value} = e.target;
         let emailErrMsg = '';
         let isEmail = false;
@@ -215,7 +215,7 @@ export default function SignUpComponent ({회원, isConfirmModalFn, isTimer, isT
         e.preventDefault();
         const regExp1 = /\s/g;
         const regExp2 = /^[A-Za-z0-9`~!#$%^&*\-_=+|{}'/?]+(\.)*[A-Za-z0-9`~!#$%^&*\-_=+|{}'/?]+@[A-Za-z0-9`~!#$%^&*\-_=+|{}'/?]+(\.)*[A-Za-z0-9`~!#$%^&*\-_=+|{}'/?]+\.[A-Za-z]{2,3}$/g;
-        const regExp3 = /[@\(\)\\\[\]":;,<>]/g;
+        const regExp3 = /[@()\\[\]":;,<>]/g;
         const {이메일} = state;
         let 이메일중복확인 = false;
 
@@ -241,16 +241,15 @@ export default function SignUpComponent ({회원, isConfirmModalFn, isTimer, isT
                     isConfirmModalFn('사용 가능한 아이디 입니다.');
                     이메일중복확인 = true;
                 }
+                setState({
+                    ...state,
+                    이메일중복확인: 이메일중복확인
+                })
             })
             .catch((err)=>{
                 console.log('AXIOS 실패' + err);
             });
         }
-
-        setState({
-            ...state,
-            이메일중복확인: 이메일중복확인
-        })
     }
 
     // 휴대폰 입력상자 온체인지 이벤트 구현
@@ -413,7 +412,8 @@ export default function SignUpComponent ({회원, isConfirmModalFn, isTimer, isT
 
     React.useEffect(()=>{
         isTimer && hpTimerCount();    // istimer 변수가 true 이면 타이머 실행, 아니면 정지
-    },[isTimer]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    },[isTimer]);   // isTimer가 변경되면 실행
 
     // 주소검색 버튼 클릭 이벤트 구현
     const onClickAddressSearchBtn=(e)=>{
@@ -424,7 +424,7 @@ export default function SignUpComponent ({회원, isConfirmModalFn, isTimer, isT
         const _height = 569;
         const _top = (window.innerHeight - _height) / 2; // 769-569=200/2=100
         const _left = (window.innerWidth - _width) / 2; // 1903-530=1373/2=686.5
-        const childWin = window.open(_fileName,_winName,`width=${_width},height=${_height},top=${_top},left=${_left}`);
+        window.open(_fileName,_winName,`width=${_width},height=${_height},top=${_top},left=${_left}`);
     }
 
     // 주소1 입력상자 온체인지 이벤트 구현
@@ -447,10 +447,18 @@ export default function SignUpComponent ({회원, isConfirmModalFn, isTimer, isT
         })
     }
 
+    // 주소 재검색 버튼 클릭 이벤트 구현
+    const onClickAddrReBtn=(e)=>{
+        e.preventDefault();
+        onClickAddressSearchBtn();
+    }
+
     // 로딩시 세션스토리지에 저장된 값(kurly_search_address) 불러오고 유지하기
+    // 비동기 방식으로 처리 (Promise)
     const getSessionAddress=()=>{
+
         function getPromise(){
-            return new Promise((success, error)=>{
+            return new Promise((resolved, rejected) => {
 
                 let 주소1 = '';
                 let 주소2 = '';
@@ -463,14 +471,14 @@ export default function SignUpComponent ({회원, isConfirmModalFn, isTimer, isT
                     isAddrHide = true;
                     isAddrApiBtn = true;
 
-                    // 주소가져오기 성공 했을 때 => 프로토타입 객체 생성
+                    // 주소 객체 생성
                     const Obj = {
                         주소1: 주소1,
                         주소2: 주소2,
-                        isAddrHide: true,
-                        isAddrApiBtn: true
+                        isAddrHide: isAddrHide,
+                        isAddrApiBtn: isAddrApiBtn
                     }
-                    success(Obj);
+                    resolved(Obj);
                 }
                 else {
                     주소1 = '';
@@ -478,14 +486,13 @@ export default function SignUpComponent ({회원, isConfirmModalFn, isTimer, isT
                     isAddrHide = false;
                     isAddrApiBtn = false;
 
-                    error('주소가져오기 실패');
+                    rejected('주소가져오기 오류');
                 }
             });
         }
-
         // 세션에서 주소를 가져오고 성공하면 성공 객체 데이터를 가져와서 state에 저장
         getPromise()
-        .then((res)=>{      // 성공 결과
+        .then((res)=>{
             setState({
                 ...state,
                 주소1: res.주소1,
@@ -494,20 +501,14 @@ export default function SignUpComponent ({회원, isConfirmModalFn, isTimer, isT
                 isAddrApiBtn: res.isAddrApiBtn
             });
         })
-        .catch((err)=>{     // 실패 결과
+        .catch((err)=>{
             console.log(err);
-        });
+        })
     }
 
     React.useEffect(()=>{
         getSessionAddress();
-    },[state.주소1, state.주소2]);
-    
-    // 주소 재검색 버튼 클릭 이벤트 구현
-    const onClickAddrReBtn=(e)=>{
-        e.preventDefault();
-        onClickAddressSearchBtn();
-    }
+    },[state.주소1, state.주소2])
 
     // 성별 라디오버튼 온체인지 이벤트 구현
     const onChangeGender=(e)=>{
@@ -529,9 +530,7 @@ export default function SignUpComponent ({회원, isConfirmModalFn, isTimer, isT
         })
     }
 
-    // 생년월일 체크 함수 구현
-    function birthCheck(){
-       
+    React.useEffect(()=>{
         const regExp1 = /^(?:0?[1-9]|1[0-2])$/g;
         const regExp2 = /^(?:0?[1-9]|1[0-9]|2[0-9]|3[0-1])$/g;
         const newYear = new Date().getFullYear();
@@ -586,10 +585,7 @@ export default function SignUpComponent ({회원, isConfirmModalFn, isTimer, isT
             isBirth: isBirth,
             birthErrMsg: birthErrMsg
         })
-    }
-
-    React.useEffect(()=>{
-        birthCheck();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     },[state.생년, state.생월, state.생일]);
 
 
@@ -819,6 +815,92 @@ export default function SignUpComponent ({회원, isConfirmModalFn, isTimer, isT
         isTermsViewFn();
     }
 
+    // 가입하기 버튼 클릭 이벤트 => 폼에서 onSubmit 이벤트 사용
+    // 폼데이터 비동기 전송
+    // 폼데이터 요소들 값중 필수입력사항 / 선택입력사항 구분하여 유효성검사 후 전송
+    const onSubmitEvent=(e)=>{
+        e.preventDefault();
+
+        let cnt = 0;
+
+        state.이용약관동의.map((item)=>{
+            if (item.indexOf("필수") !== -1) {
+                cnt++;
+            }
+        });
+
+        if (state.아이디 === '') {
+            isConfirmModalFn('아이디를 입력 해주세요.')
+        }
+        else if (state.아이디중복확인 === false) {
+            isConfirmModalFn('아이디 중복 체크를 해주세요.')
+        }
+        else if (state.비밀번호 === '') {
+            isConfirmModalFn('비밀번호를 입력 해주세요.')
+        }
+        else if (state.비밀번호확인 === '') {
+            isConfirmModalFn('한번더 비밀번호를 입력 해주세요.')
+        }
+        else if (state.이름 === '') {
+            isConfirmModalFn('이름을 입력 해주세요.')
+        }
+        else if (state.이메일 === '') {
+            isConfirmModalFn('이메일을 입력 해주세요.')
+        }
+        else if (state.이메일중복확인 === false) {
+            isConfirmModalFn('이메일 중복 체크를 해주세요.')
+        }
+        else if (state.휴대폰 === '') {
+            isConfirmModalFn('휴대폰 번호를 입력 해주세요.')
+        }
+        else if (state.휴대폰인증확인 === false) {
+            isConfirmModalFn('휴대폰 인증을 진행 해주세요')
+        }
+        else if (state.주소1 === '') {
+            isConfirmModalFn('주소를 입력 해주세요.')
+        }
+        else if (state.주소2 === '') {
+            isConfirmModalFn('나머지 주소를 입력 해주세요.')
+        }
+        else if (cnt !== 3) {
+            isConfirmModalFn('이용약관동의 필수 항목을 체크해 주세요.')
+        }
+        else {
+            isConfirmModalFn('구현중')
+        //     const regExp1 = /^(\d{3})(\d{3,4})(\d{4})$/g;
+
+        //     // 폼데이터 객체 생성 후 전송
+        //     const newFormData = new FormData();
+        //     newFormData.append('id',        state.아이디);
+        //     newFormData.append('pw',        state.비밀번호);
+        //     newFormData.append('irum',      state.이름);
+        //     newFormData.append('email',     state.이메일);
+        //     newFormData.append('hp',        state.휴대폰.replace(regExp1, '$1-$2-$3'));
+        //     newFormData.append('addr',      `${state.주소1} ${state.주소2}`);
+        //     newFormData.append('gender',    state.성별);
+        //     newFormData.append('birth',     `${state.생년}-${state.생월}-${state.생일}`);
+        //     newFormData.append('addInput',  `${state.추가입력사항} ${state.추가입력사항입력상자}`);
+        //     newFormData.append('service',   state.이용약관동의);
+        //     newFormData.append('gaimDate',  `${new Date().getFullYear()}-${new Date().getMonth() + 1}-${new Date().getDate()}`);
+
+        //     axios({
+        //         url: 'http://kiik52.dothome.co.kr/kurly_study/member_insert.php',
+        //         method:'POST',
+        //         data: newFormData
+        //     })
+        //     .then((res)=>{
+
+        //         if(res.data.indexOf('성공') !== -1) {
+        //             introMainFn();
+        //             isConfirmModalFn('회원가입을 축하합니다.');
+        //         }
+        //     })
+        //     .catch((err)=>{
+        //         console.log('AXIOS 실패', err.data);
+        //     })
+        }
+    }
+
   return (
     <main id='main'>
         <section id="signUp">
@@ -832,7 +914,7 @@ export default function SignUpComponent ({회원, isConfirmModalFn, isTimer, isT
                     </div>
                 </div>
                 <div className="content">
-                    <form name='form_sign_up' autocomplement='off' id='formSignUp' method='post' action="./member_sign_up.php">
+                    <form name='form_sign_up' onSubmit={onSubmitEvent} autocomplement='off' id='formSignUp' method='post' action="./member_sign_up.php">
                         <ul>
                             <li>
                                 <div className="left">
@@ -1146,29 +1228,30 @@ export default function SignUpComponent ({회원, isConfirmModalFn, isTimer, isT
 // props의 자료형 선언 : prop-types (패키지 설치)
 SignUpComponent.propTypes = {
     회원 : PropTypes.shape ({
-        아이디:                 PropTypes.string,
+        // isRequired = 필수입력사항, 없으면 선택 입력사항
+        아이디:                 PropTypes.string.isRequired,
         isId:                   PropTypes.bool,
-        아이디중복확인:         PropTypes.bool,
+        아이디중복확인:         PropTypes.bool.isRequired,
 
-        비밀번호:               PropTypes.string,
+        비밀번호:               PropTypes.string.isRequired,
         pwErrMsg:               PropTypes.string,
         isPw:                   PropTypes.bool,
-        비밀번호확인:           PropTypes.string,
+        비밀번호확인:           PropTypes.string.isRequired,
         pwOkErrMsg:             PropTypes.string,
         isPwOk:                 PropTypes.bool,
 
-        이름:                   PropTypes.string,
+        이름:                   PropTypes.string.isRequired,
         nameErrMsg:             PropTypes.string,
         isName:                 PropTypes.bool,
 
-        이메일:                 PropTypes.string,
+        이메일:                 PropTypes.string.isRequired,
         emailErrMsg:            PropTypes.string,
         isEmail:                PropTypes.bool,
-        이메일중복확인:         PropTypes.bool,
+        이메일중복확인:         PropTypes.bool.isRequired,
 
-        휴대폰:                 PropTypes.string,
+        휴대폰:                 PropTypes.string.isRequired,
         isHp:                   PropTypes.bool,
-        휴대폰인증확인:         PropTypes.bool,
+        휴대폰인증확인:         PropTypes.bool.isRequired,
         인증번호:               PropTypes.number,
         인증번호입력상자:       PropTypes.string,
         isHpOkBox:              PropTypes.bool,
@@ -1178,8 +1261,8 @@ SignUpComponent.propTypes = {
         minute:                 PropTypes.number,
         second:                 PropTypes.number,
 
-        주소1:                  PropTypes.string,
-        주소2:                  PropTypes.string,
+        주소1:                  PropTypes.string.isRequired,
+        주소2:                  PropTypes.string.isRequired,
         isAddrHide:             PropTypes.bool,
         isAddrApiBtn:           PropTypes.bool,
 
@@ -1199,7 +1282,7 @@ SignUpComponent.propTypes = {
         아이디확인:             PropTypes.bool,
 
         이용약관내용:           PropTypes.array,
-        이용약관동의:           PropTypes.array
+        이용약관동의:           PropTypes.array.isRequired
     })
 }
 

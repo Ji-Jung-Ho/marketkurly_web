@@ -30,7 +30,6 @@
         click(e){
           e.preventDefault();
           if($(this).text() === "자세히 보기") {
-            let img = $(".arrow-down")
             $(this).text("간략히 보기").append()
           }
           else {

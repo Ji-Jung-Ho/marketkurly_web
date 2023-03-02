@@ -24,7 +24,7 @@ export default function WrapComponent (props) {
   const [isSubMain3, setIsSubMain3]   = React.useState(false);        // 서브메인3
   const [isSubMain4, setIsSubMain4]   = React.useState(false);        // 서브메인4
   const [isMemberSignUp, setIsMemberSignUp] = React.useState(false);  // 회원가입
-  const [IsMemberSignIn, setIsMemberSignIn] = React.useState(false);  // 로그인
+  const [isMemberSignIn, setIsMemberSignIn] = React.useState(false);  // 로그인
 
   // 탑모달 상태변경 함수
   const topModalState=()=>{
@@ -190,10 +190,7 @@ const memberSignInFn=()=>{
         isMemberSignUp && <MemberSignUpComponent introMainFn={introMainFn}/>
       }
       { //로그인
-        IsMemberSignIn && <MemberSignInComponent/>
-      }
-      {
-        IsMemberSignIn && <memberSignInFn/>
+        isMemberSignIn && <MemberSignInComponent/>
       }
       { // 푸터
         <FooterComponent $path={props.$path}/>
